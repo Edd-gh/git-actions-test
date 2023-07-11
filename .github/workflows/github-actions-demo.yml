@@ -1,18 +1,29 @@
 name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }} is testing out Looker Actions 🚀
 on: [push]
+env:
+  BASE_URL: https://gcpl236.cloud.looker.com
+  LOOKER_CLIENT_ID: XV54MFwzKgDzBKsPh7Db
+  LOOKER_SECRET: NcJPGjm5vSn9bN7pgwXTPHgR
 jobs:
-  Explore-GitHub-Actions:
+  looker-testing:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+      - name: Set python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Create config file
+        shell: bash
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          echo [looker] > looker.ini
+          echo "base_url=${{env.BASE_URL}}" >> looker.ini
+          echo "client_id=${{env.LOOKER_CLIENT_ID}}" >> looker.ini
+          echo "client_secret=${{env.LOOKER_SECRET}}" >> looker.ini
+          echo "verify_ssl=True" >> looker.ini
+          
+      - name: Install Looker SDK
+        run: pip install looker_sdk
+      
+      - name: Run script
+        run: python .github/workflows/hello_looker.py
