@@ -2,9 +2,9 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out Looker Actions 🚀
 on: [push]
 env:
-  BASE_URL: https://gcpl236.cloud.looker.com
-  LOOKER_CLIENT_ID: XV54MFwzKgDzBKsPh7Db
-  LOOKER_SECRET: NcJPGjm5vSn9bN7pgwXTPHgR
+  BASE_URL: https://REDACTED.cloud.looker.com
+  LOOKER_CLIENT_ID: REDACTED
+  LOOKER_SECRET: REDACTED
 jobs:
   looker-testing:
     runs-on: ubuntu-latest
